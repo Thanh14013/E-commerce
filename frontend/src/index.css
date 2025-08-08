@@ -1,7 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Prata&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .active hr {
   display: block;
+}
+* {
+  font-family: "Prata", serif;
+}
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
 }
