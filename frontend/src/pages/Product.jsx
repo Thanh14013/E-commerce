@@ -7,7 +7,7 @@ import RelatedProduct from '../components/RelatedProduct';
 const Product = () => {
 
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('');
@@ -54,19 +54,21 @@ const Product = () => {
         <div className="flex-1">
             <h1 className="font-medium text-2xl mt-2 ">{[productData.name]}</h1>
 
-            <div className="flex items-center gap-1 mt-2">
-                <img src={assets.star_icon}  className='w-3 5' alt="" />
+            <div className="flex flex-col mt-2">
+                <div className="flex items-center gap-1">
+                    <img src={assets.star_icon} className='w-3.5' alt="" />
+                    <img src={assets.star_icon} className='w-3.5' alt="" />
+                    <img src={assets.star_icon} className='w-3.5' alt="" />
+                    <img src={assets.star_icon} className='w-3.5' alt="" />
+                    <img src={assets.star_dull_icon} className='w-3.5' alt="" />
+                    <p className="pl-2">(122)</p>
+                </div>
 
                 <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
                   <p>100% Original product</p>
                   <p>Cash on delivery is available on this product</p>
                   <p>Easy return and exchange policy in 7 days</p>
                 </div>
-                <img src={assets.star_icon}  className='w-3 5' alt="" />
-                <img src={assets.star_icon}  className='w-3 5' alt="" />
-                <img src={assets.star_icon}  className='w-3 5' alt="" />
-                <img src={assets.star_dull_icon}  className='w-3 5' alt="" />
-                <p className="pl-2">(122)</p>
             </div>
 
             <p className="mt-5 text-3xl font-medium">{currency}{productData.price}</p>
@@ -83,7 +85,7 @@ const Product = () => {
 
             </div>
 
-            <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">ADD TO CART</button>      
+            <button onClick={() => addToCart(productData._id, size)} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">ADD TO CART</button>      
             <hr className="mt-8 sm:w-4/5" />
 
             <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
