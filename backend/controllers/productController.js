@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
+import productModel from '../models/productModel.js';
 
 // function for add product
 const addProduct = async (req, res) => {
@@ -21,8 +22,22 @@ const addProduct = async (req, res) => {
             })
         )
 
-        console.log(name, description, price, category, subCategory, sizes, bestSeller);
-        console.log(imageUrl);
+
+        const productData = {
+            name,
+            description,
+            price: Number(price),
+            category,
+            subCategory,
+            sizes: JSON.parse(sizes),
+            bestSeller: bestSeller === "true" ? true : false,
+            image: imageUrl,
+            date: Date.now()
+        }
+
+        const product = new productModel(productData);
+        await product.save();
+
 
         res.json({success: "true", message: "Product added successfully!"});
 
@@ -36,18 +51,46 @@ const addProduct = async (req, res) => {
 // function for list product
 const listProduct = async (req, res) => {
 
+    try {
+        
+        const products = await productModel.find({});
+        res.json({success: "true", products});
+
+    } catch (error) {
+        res.json({success:"false",message: error.message});
+    }
 
 }
 
 // function for remove product
 const removeProduct = async (req, res) => {
 
+    try {
+        
+        await productModel.findByIdAndDelete(req.body.id);
+        res.json({success: "true", message: "Product removed successfully!"});
+
+    } catch (error) {
+        res.json({success: "false", message: error.message});
+    }
 
 }
 
 // function for single product infor
 const singleProduct = async (req, res) => {
 
+    try{
+
+        const productId = req.body.productId;
+        const product = await productModel.findById(productId);
+
+        res.json({success: "true", product});
+
+    }
+    catch(error){
+        res.json({success: "false", message: error.message});
+
+    }
 
 }
 
