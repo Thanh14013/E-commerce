@@ -1,3 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Prata&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active {
+  background-color: #ffebf5;
+  border-color: #c586a5;
+}
+* {
+  font-family: "Prata", serif;
+}
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
+  font-style: normal;
+}
