@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { assets } from '../assets/assets'
 import axios from 'axios'
 import { backendUrl } from '../App';
+import { toast } from 'react-toastify';
 
 const Add = ({token}) => {
 
@@ -36,14 +37,28 @@ const Add = ({token}) => {
       formData.append('subCategory', subCategory);
       formData.append('price', price);
       formData.append('sizes', JSON.stringify(sizes));
-      formData.append('bestseller', bestseller);
+      formData.append('bestSeller', bestseller);
 
       const response = await axios.post(backendUrl + '/api/product/add', formData, {headers: {token}});
 
-      console.log(response.data);
+      if(response.data.success) {
+        toast.success(response.data.message);
+        setImage1(false);
+        setImage2(false);
+        setImage3(false);
+        setImage4(false);
+        setName('')
+        setDescription('')
+        setCategory('Men')
+        setSubCategory('Topwear')
+        setPrice('')
+        setSizes([])
+        setBestseller(false)
+      }
 
     } catch (error) {
       console.error(error);
+      toast.error(error.message);
     }
   }
 
@@ -134,10 +149,14 @@ const Add = ({token}) => {
       </div>
 
       <div className='flex gap-2 mt-2'>
-        <input onChange={(e) => setBestseller(prev => !prev)} checked={bestseller} type="checkbox" id='bestseller' />
-        <label htmlFor="bestseller" className='cursor-pointer'>Add to bestseller</label>
-      </div>
-
+        <input 
+        onChange={(e) => setBestseller(e.target.checked)} 
+        checked={bestseller} 
+        type="checkbox" 
+        id='bestseller' 
+      />
+  <label htmlFor="bestseller" className='cursor-pointer'>Add to bestseller</label>
+</div>
       <button type="submit" className='w-28 py-3 mt-4 bg-black text-white'>ADD</button>
 
     </form>
