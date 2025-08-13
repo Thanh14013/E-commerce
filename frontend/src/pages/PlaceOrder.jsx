@@ -3,11 +3,13 @@ import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/assets'
 import { ShopContext } from '../context/ShopContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const PlaceOrder = () => {
 
   const [method, setMethod] = useState('cod');
-  const {navigate, backendUrl, token, cartItems, setCartItems, getCartAmount, delivery_fee, products} = useContext(ShopContext);
+  const {navigate, backendUrl, token, cartItems, setCartItems, getCartTotal, delivery_fee, products} = useContext(ShopContext);
   const [formData, setFormData] = useState({
     firstName:'',
     lastName:'',
@@ -49,7 +51,7 @@ const PlaceOrder = () => {
       let orderData = {
         address: formData,
         items: orderItems,
-        amount: getCartAmount() + delivery_fee
+        amount: getCartTotal() + delivery_fee
       }
 
       switch(method){
@@ -61,6 +63,9 @@ const PlaceOrder = () => {
             setCartItems({});
             navigate('/orders');
           }
+          else{
+            toast.error(respond.data.message);
+          }
           break;
 
         default:
@@ -70,7 +75,7 @@ const PlaceOrder = () => {
       }
 
     } catch (error) {
-      
+      console.log(error);
     }
 
   }
@@ -127,7 +132,7 @@ const PlaceOrder = () => {
           </div>
 
           <div className="w-full text-end mt-8">
-            <button type='submit' onClick={() => navigate('/orders')} className="bg-black text-white px-16 py-3 text-sm">PLACE ORDER</button>
+            <button type='submit' className="bg-black text-white px-16 py-3 text-sm">PLACE ORDER</button>
           </div>
 
         </div>

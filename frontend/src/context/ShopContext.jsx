@@ -180,6 +180,7 @@ const ShopContextProvider = (props) => {
         token,
         setToken,
         getUserCart,
+        setCartItems
     }
 
     return(

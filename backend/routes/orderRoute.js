@@ -8,8 +8,8 @@ const orderRouter = express.Router();
 
 
 // admin features
-orderRouter.get('/list', adminAuth, allOrders);
-orderRouter.put('/status', adminAuth, updateStatus);
+orderRouter.post('/list', adminAuth, allOrders);
+orderRouter.post('/status', adminAuth, updateStatus);
 
 // payment features
 orderRouter.post('/place', authUser, placeOrder);
@@ -17,6 +17,6 @@ orderRouter.post('/razorpay', authUser, placeOrderRazorpay);
 orderRouter.post('/stripe', authUser, placeOrderStripe);
 
 // user features
-orderRouter.get('/userorders', authUser, userOrders);
+orderRouter.post('/userorders', authUser, userOrders);
 
 export default orderRouter;
