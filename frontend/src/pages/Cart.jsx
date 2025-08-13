@@ -7,29 +7,34 @@ import CartTotal from '../components/CartTotal';
 
 const Cart = () => {
 
-  const {products, currency, cartItems, updateQuantity, navigate} = useContext(ShopContext);
+  const {products, currency, cartItems, updateQuantity, navigate, token, setToken} = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
     
+    // Clear cart data when user is not logged in
+    if (!token) {
+      setCartData([]);
+      return;
+    }
+
+    // Build cart data when user is logged in and products are available
     if (products.length > 0){
       const tempData = [];
-    for (const items in cartItems){
-      for (const item in cartItems[items]){
-        if (cartItems[items][item] > 0){
-          tempData.push({
-            _id:items,
-            size:item,
-            quantity: cartItems[items][item]
-          })
+      for (const items in cartItems){
+        for (const item in cartItems[items]){
+          if (cartItems[items][item] > 0){
+            tempData.push({
+              _id:items,
+              size:item,
+              quantity: cartItems[items][item]
+            })
+          }
         }
       }
+      setCartData(tempData);
     }
-    setCartData(tempData);
-    }
-    
-
-  },[cartItems,products])
+  },[cartItems,products,token])
   return (
     <div className='border-t pt-14'>
 
@@ -44,7 +49,7 @@ const Cart = () => {
           const productData = products.find(product => product._id === item._id);
 
           return(
-            <div className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5_fr] items-center gap-4">
+            <div key={index} className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5_fr] items-center gap-4">
               <div className="flex items-start gap-6">
                 <img src={productData.image[0]} className='w-16 sm:w-20' alt="" />
                 <div>

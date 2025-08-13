@@ -54,9 +54,8 @@ const ShopContextProvider = (props) => {
     }
 
     const getCartCount = () =>{
-        let count = 0;
-        
-        for (const items in cartItems){
+        let count = 0; 
+        for (const items in cartItems) {
             for (const item in cartItems[items]){
                 try {
                     count += cartItems[items][item];
@@ -155,6 +154,14 @@ const ShopContextProvider = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        if (token) {
+            getUserCart(token);
+        } else {
+            setCartItems({});
+        }
+    }, [token]);
+
     const value ={
         products,
         currency,
@@ -171,7 +178,8 @@ const ShopContextProvider = (props) => {
         navigate,
         backendUrl,
         token,
-        setToken
+        setToken,
+        getUserCart,
     }
 
     return(
