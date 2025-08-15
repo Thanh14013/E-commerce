@@ -25,6 +25,23 @@ const Orders = ({ token }) => {
 
     } catch (error) {
       console.log(error.message);
+      toast.error(error.message);
+    }
+
+  }
+
+  const statusHandler = async (event, orderId) => {
+
+    try {
+      const respond = await axios.post(backendUrl + '/api/order/status', { orderId, status: event.target.value }, { headers: { token } });
+      if (respond.data.success) {
+        toast.success(respond.data.message);
+        fetchAllOrders();
+      } else {
+        toast.error(respond.data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
 
   }
@@ -79,7 +96,7 @@ const Orders = ({ token }) => {
 
               {/* Select status */}
               <div>
-                <select className='p-2 font-semibold'>
+                <select onChange={(event) => statusHandler(event, order._id)} value={order.status} className='p-2 font-semibold'>
                   <option value="Order Placed">Order Placed</option>
                   <option value="Packing">Packing</option>
                   <option value="Shipped">Shipped</option>
